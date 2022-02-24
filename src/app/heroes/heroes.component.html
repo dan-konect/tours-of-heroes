@@ -1,20 +1,30 @@
-<!-- List of Heroes -->
 <h2>My Heroes</h2>
 <ul class="heroes">
-  <li *ngFor="let hero of heroes">
-    <span class="badge">
-      {{ hero.id }}
-    </span>
-    {{ hero.name }}
-    <button type="button" (click)="onSelect(hero)">Details</button>
+  <!-- *ngFor => Creates a List of Heroes  -->
+  <li class="heroes-list" *ngFor="let hero of heroes">
+    <button
+      class="heroes-button"
+      [class.selected]="hero === selectedHero"
+      type="button"
+      (click)="onSelect(hero)"
+    >
+      <span class="heroes-badge">
+        {{ hero.id }}
+      </span>
+      <span class="heroes-name">
+        {{ hero.name }}
+      </span>
+    </button>
   </li>
 </ul>
 <!-- Hero Details -->
+<!-- *ngIf => conditionally includes or exclude a block of HTML -->
 <div *ngIf="selectedHero">
   <h2>{{ selectedHero.name | uppercase }} Details</h2>
   <div>id: {{ selectedHero.id }}</div>
   <div>
     <label for="hero-name">Hero name: </label>
-    <input id="hero-name" [(ngModel)]="selectedHero.name" placeholder="name" />
+    <!-- [(ngModel)] => fetches data to placeholder -->
+    <input id="hero-name" [(ngModel)]="selectedHero.name" />
   </div>
 </div>
