@@ -1,6 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { Hero } from "../hero";
-import { HEROES } from "../mock-heroes";
+// import { HEROES } from "../mock-heroes";
+
+// Imports our Mock heroes through a service
+import { HeroService } from "../hero.service";
 
 // component contains 3 Metadata properties
 @Component({
@@ -9,12 +12,22 @@ import { HEROES } from "../mock-heroes";
   styleUrls: ["./heroes.component.scss"], // the location of the component's private CSS styles.
 })
 export class HeroesComponent implements OnInit {
-  heroes = HEROES; // set heroes to mock database
+  heroes: Hero[] = []; // set heroes to empty array (was mock data before)
   selectedHero?: Hero; // If selectedHero exists, set interface to Hero
 
-  constructor() {}
-
-  ngOnInit(): void {}
+  // Defines a private heroService property and identifies it as a HeroService
+  // injection site.
+  constructor(private heroService: HeroService) {}
+  // Create method to retrieve the heroes from the services
+  getHeroes(): void {
+    // Tghe subscribe() method passes the emitted array
+    // to the callback, which sets the component's heroes property
+    this.heroService.getHeroes().subscribe((heroes) => (this.heroes = heroes));
+  }
+  // Calling getHeroes() in ngOnInit() /bc it's a lifecycle hook
+  ngOnInit(): void {
+    this.getHeroes();
+  }
   // Event listener => {id: "", name: ""}
   onSelect(hero: Hero): void {
     this.selectedHero = hero;
