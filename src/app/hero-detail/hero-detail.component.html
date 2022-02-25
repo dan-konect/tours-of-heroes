@@ -1,0 +1,11 @@
+<!-- Hero Details -->
+<!-- *ngIf => conditionally includes or exclude a block of HTML -->
+<div *ngIf="hero">
+  <h2>{{ hero.name | uppercase }} Details</h2>
+  <div>id: {{ hero.id }}</div>
+  <div>
+    <label for="hero-name">Hero name: </label>
+    <!-- [(ngModel)] => fetches data to placeholder -->
+    <input id="hero-name" [(ngModel)]="hero.name" />
+  </div>
+</div>

@@ -17,14 +17,5 @@
     </button>
   </li>
 </ul>
-<!-- Hero Details -->
-<!-- *ngIf => conditionally includes or exclude a block of HTML -->
-<div *ngIf="selectedHero">
-  <h2>{{ selectedHero.name | uppercase }} Details</h2>
-  <div>id: {{ selectedHero.id }}</div>
-  <div>
-    <label for="hero-name">Hero name: </label>
-    <!-- [(ngModel)] => fetches data to placeholder -->
-    <input id="hero-name" [(ngModel)]="selectedHero.name" />
-  </div>
-</div>
+<!-- [hero]="selectedHero" => basically props passing -->
+<app-hero-detail [hero]="selectedHero"></app-hero-detail>
