@@ -4,6 +4,7 @@ import { Hero } from "../hero";
 
 // Imports our Mock heroes through a service
 import { HeroService } from "../hero.service";
+import { MessageService } from "../message.service";
 
 // component contains 3 Metadata properties
 @Component({
@@ -17,7 +18,10 @@ export class HeroesComponent implements OnInit {
 
   // Defines a private heroService property and identifies it as a HeroService
   // injection site.
-  constructor(private heroService: HeroService) {}
+  constructor(
+    private heroService: HeroService,
+    private messageService: MessageService
+  ) {}
   // Create method to retrieve the heroes from the services
   getHeroes(): void {
     // Tghe subscribe() method passes the emitted array
@@ -31,6 +35,6 @@ export class HeroesComponent implements OnInit {
   // Event listener => {id: "", name: ""}
   onSelect(hero: Hero): void {
     this.selectedHero = hero;
-    console.log(this.selectedHero);
+    this.messageService.add(`HeroesComponent: Selected hero id=${hero.id}`);
   }
 }

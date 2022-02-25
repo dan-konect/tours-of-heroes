@@ -5,6 +5,8 @@ import { HEROES } from "./mock-heroes";
 
 import { Observable, of } from "rxjs";
 
+import { MessageService } from "./message.service";
+
 @Injectable({
   // declares that this service should be created
   // by the root application injector.
@@ -14,8 +16,10 @@ export class HeroService {
   // Returns the mock heroes asynchronously with Observables
   getHeroes(): Observable<Hero[]> {
     const heroes = of(HEROES);
+    this.messageService.add("HeroService: fetched heroes");
     return heroes;
   }
 
-  constructor() {}
+  // Example of service-in-service
+  constructor(private messageService: MessageService) {}
 }
