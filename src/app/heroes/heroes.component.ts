@@ -14,14 +14,14 @@ import { MessageService } from "../message.service";
 })
 export class HeroesComponent implements OnInit {
   heroes: Hero[] = []; // set heroes to empty array (was mock data before)
-  selectedHero?: Hero; // If selectedHero exists, set interface to Hero
+  // selectedHero?: Hero; // If selectedHero exists, set interface to Hero
 
   // Defines a private heroService property and identifies it as a HeroService
   // injection site.
   constructor(
-    private heroService: HeroService,
-    private messageService: MessageService
-  ) {}
+    private heroService: HeroService
+  ) // private messageService: MessageService
+  {}
   // Create method to retrieve the heroes from the services
   getHeroes(): void {
     // Tghe subscribe() method passes the emitted array
@@ -33,8 +33,8 @@ export class HeroesComponent implements OnInit {
     this.getHeroes();
   }
   // Event listener => {id: "", name: ""}
-  onSelect(hero: Hero): void {
-    this.selectedHero = hero;
-    this.messageService.add(`HeroesComponent: Selected hero id=${hero.id}`);
-  }
+  // onSelect(hero: Hero): void {
+  //   this.selectedHero = hero;
+  //   this.messageService.add(`HeroesComponent: Selected hero id=${hero.id}`);
+  // }
 }

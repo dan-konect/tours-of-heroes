@@ -2,20 +2,22 @@
 <ul class="heroes">
   <!-- *ngFor => Creates a List of Heroes  -->
   <li class="heroes-list" *ngFor="let hero of heroes">
-    <button
+    <!-- <button
       class="heroes-button"
       [class.selected]="hero === selectedHero"
       type="button"
       (click)="onSelect(hero)"
     >
+    </button> -->
+    <a class="heroes-button" routerLink="/detail/{{ hero.id }}">
       <span class="heroes-badge">
         {{ hero.id }}
       </span>
       <span class="heroes-name">
         {{ hero.name }}
       </span>
-    </button>
+    </a>
   </li>
 </ul>
 <!-- [hero]="selectedHero" => basically props passing -->
-<app-hero-detail [hero]="selectedHero"></app-hero-detail>
+<!-- <app-hero-detail [hero]="selectedHero"></app-hero-detail> -->
