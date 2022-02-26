@@ -1,7 +1,21 @@
+h1 {
+  margin-bottom: 0;
+}
+
 a {
-  margin: 0 1rem;
+  display: inline-block;
+  margin-top: 10px;
   text-decoration: none;
-  border-radius: 25px;
-  background-color: lightcoral;
-  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  background-color: #e8e8e8;
+  color: #3d3d3d;
+  padding: 1rem;
+
+  &:hover {
+    color: white;
+    background-color: #42545c;
+  }
+  &:active {
+    background-color: black;
+  }
 }
