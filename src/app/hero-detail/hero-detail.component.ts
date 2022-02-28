@@ -1,9 +1,8 @@
 import { Component, OnInit, Input } from "@angular/core";
-import { Hero } from "../hero";
-
 import { ActivatedRoute } from "@angular/router";
 import { Location } from "@angular/common";
 import { HeroService } from "../hero.service";
+import { Hero } from "../hero";
 
 @Component({
   selector: "app-hero-detail",
@@ -31,5 +30,13 @@ export class HeroDetailComponent implements OnInit {
   // goBack() method to track browser history
   goBack(): void {
     this.location.back();
+  }
+
+  // save() method to persist hero name changes using the hero service
+  // updateHero() method then, it navigates back to the previous view
+  save(): void {
+    if (this.hero) {
+      this.heroService.updateHero(this.hero).subscribe(() => this.goBack());
+    }
   }
 }

@@ -1,12 +1,9 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-
 import { Hero } from "./hero";
 import { HEROES } from "./mock-heroes";
-
 import { Observable, of } from "rxjs";
 import { catchError, map, tap } from "rxjs/operators";
-
 import { MessageService } from "./message.service";
 
 @Injectable({
@@ -15,17 +12,15 @@ import { MessageService } from "./message.service";
   providedIn: "root",
 })
 export class HeroService {
-  // Example of service-in-service
-  constructor(
-    private messageService: MessageService,
-    private http: HttpClient
-  ) {}
+  httpOptions = {
+    headers: new HttpHeaders({ "Content-Type": "application/json" }),
+  };
 
+  private heroesUrl = "api/heroes"; // URL to the web api
   /* Log a HeroService message with the MessageService */
   private log(message: string) {
     this.messageService.add(`HeroService: ${message}`);
   }
-  private heroesUrl = "api/heroes"; // URL to the web api
 
   private handleError<T>(operation = "operation", result?: T) {
     return (error: any): Observable<T> => {
@@ -39,7 +34,14 @@ export class HeroService {
     };
   }
 
+  // Example of service-in-service
+  constructor(
+    private messageService: MessageService,
+    private http: HttpClient
+  ) {}
+
   // Returns the mock heroes asynchronously with Http.get
+  /* GET All heroes s*/
   getHeroes(): Observable<Hero[]> {
     return this.http.get<Hero[]>(this.heroesUrl).pipe(
       tap((_) => this.log("featured heroes")),
@@ -47,11 +49,20 @@ export class HeroService {
     );
   }
   // getHero() for hero details and its id
+  /** GET hero by id. Will 404 if id not found */
   getHero(id: number): Observable<Hero> {
-    // For now, assume that a hero with the specified `id` always exists.
-    // Error handling will be added in the next step of the tutorial.
-    const hero = HEROES.find((h) => h.id === id)!;
-    this.messageService.add(`HeroService: fetched hero id=${id}`);
-    return of(hero);
+    const url = `${this.heroesUrl}/${id}`;
+    return this.http.get<Hero>(url).pipe(
+      tap((_) => this.log(`fetched hero id=${id}`)),
+      catchError(this.handleError<Hero>(`getHero id=${id}`))
+    );
+  }
+
+  /* PUT: update the hero on the server */
+  updateHero(hero: Hero): Observable<any> {
+    return this.http.put(this.heroesUrl, hero, this.httpOptions).pipe(
+      tap((_) => this.log(`updated hero id=${hero.id}`)),
+      catchError(this.handleError<any>("updateHero"))
+    );
   }
 }
