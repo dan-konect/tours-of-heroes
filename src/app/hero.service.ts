@@ -5,6 +5,7 @@ import { HEROES } from "./mock-heroes";
 import { Observable, of } from "rxjs";
 import { catchError, map, tap } from "rxjs/operators";
 import { MessageService } from "./message.service";
+// import { url } from "inspector";
 
 @Injectable({
   // declares that this service should be created
@@ -21,7 +22,13 @@ export class HeroService {
   private log(message: string) {
     this.messageService.add(`HeroService: ${message}`);
   }
-
+  /**
+   * Handle Http operation that failed.
+   * Let the app continue.
+   *
+   * @param operation - name of the operation that failed
+   * @param result - optional value to return as the observable result
+   */
   private handleError<T>(operation = "operation", result?: T) {
     return (error: any): Observable<T> => {
       // TODO: send the error to remote loggin infrastructure
@@ -29,7 +36,7 @@ export class HeroService {
 
       // TODO: better job of transforming error for user consumption
       this.log(`${operation} failed: ${error.message}`);
-
+      // Let the app keep running by returning an empty result.
       return of(result as T);
     };
   }
@@ -82,5 +89,24 @@ export class HeroService {
       tap((_) => this.log(`Deleted hero`)),
       catchError(this.handleError<Hero>("deletedHero"))
     );
+  }
+
+  /** QUERIES: GET heroes whose name contains search term */
+  searchHeroes(term: string): Observable<Hero[]> {
+    if (!term.trim()) {
+      // if not search term, return empty hero array
+      return of([]);
+    }
+    return this.http
+      .get<Hero[]>(`${this.heroesUrl}/?name=${term}`)
+      .pipe(
+        tap(
+          (x) =>
+            x.length
+              ? this.log(`Found heroes matching "${term}"`)
+              : this.log(`No heroes matches "${term}"`),
+          catchError(this.handleError<Hero[]>("serachHeroes"))
+        )
+      );
   }
 }
