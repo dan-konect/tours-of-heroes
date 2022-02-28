@@ -25,11 +25,20 @@
     <a class="heroes-button" routerLink="/detail/{{ hero.id }}">
       <span class="heroes-badge">
         {{ hero.id }}
-      </span>
-      <span class="heroes-name">
-        {{ hero.name }}
+        <span class="heroes-name">
+          {{ hero.name }}
+        </span>
       </span>
     </a>
+
+    <button
+      type="button"
+      class="delete"
+      title="delete hero"
+      (click)="delete(hero)"
+    >
+      x
+    </button>
   </li>
 </ul>
 <!-- [hero]="selectedHero" => basically props passing -->
